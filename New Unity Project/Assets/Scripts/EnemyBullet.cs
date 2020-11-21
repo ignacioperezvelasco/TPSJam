@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyBullet : MonoBehaviour
 {
     float BulletDamage = 5;
-    float distanceCanReach=40;
+    public float distanceCanReach=40;
     Vector3 initialPosition;
 
     private void Start()
@@ -27,7 +27,7 @@ public class EnemyBullet : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            other.GetComponent<EnemyScript>().TakeDamage(BulletDamage);
+            other.GetComponent<rvMovementPers>().TakeDamage(BulletDamage);
             Die();
         }
     }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class rvMovementPers : MonoBehaviour
 {
     //movement
+    [Header("movement")]
     public Rigidbody myRb;
     public float speed=2;
     public float speedGTX = 0.2f;
@@ -22,8 +23,8 @@ public class rvMovementPers : MonoBehaviour
     private GameObject myPlayer;
 
     // Update is called once per frame
-
     //Gun
+    [Header("GUN")]
     public float damage = 10f;
     public float range = 100f;
     public float bulletSpeed = 100;
@@ -32,18 +33,29 @@ public class rvMovementPers : MonoBehaviour
     public Rigidbody crystal;
     public Transform rightPistol;
     public Transform leftPistol;
-
-    //dash
+    bool canShoot = true;
+    bool canShoot2 = true;
     bool isDashing=false;
-    public float dashTime = 0.3f;
+    [SerializeField] float fireRate = 0.5f;
+    [SerializeField] float fireRate2 = 0.8f;
+    float timerToShoot, timerToShoot2;
+
+    [Header("DASH")]
     float dashTimer = 0f;
-    public float dashvelocity = 20;
+    public float dashvelocity = 30;
     private Vector3 dashV;
     bool doubleJumped = false;
+    public float dashTime = 0.15f;
+
+    //other
+    [Header("other")]
+    float currentHealth = 100;
 
     private void Start()
     {
         myPlayer = GameObject.FindGameObjectWithTag("Player");
+        timerToShoot = fireRate;
+        timerToShoot2 = fireRate2;
     }
 
     void Update()
@@ -101,11 +113,11 @@ public class rvMovementPers : MonoBehaviour
             }
         }
 
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1") && canShoot)
         {
             Shoot();
         }
-        if (Input.GetButtonDown("Fire2"))
+        if (Input.GetButtonDown("Fire2") && canShoot2)
         {
             ShootCrystal();
         }
@@ -132,17 +144,39 @@ public class rvMovementPers : MonoBehaviour
             {
                 isDashing = false;
             }
-        } 
+        }
+
+        if (!canShoot)
+        {
+            timerToShoot -= Time.fixedDeltaTime;
+            if (timerToShoot <= 0)
+            {
+                canShoot = true;
+                timerToShoot = fireRate;
+            }
+        }
+
+        if (!canShoot2)
+        {
+            timerToShoot2 -= Time.fixedDeltaTime;
+            if (timerToShoot2 <= 0)
+            {
+                canShoot2 = true;
+                timerToShoot2 = fireRate2;
+            }
+        }
     }
 
     void Shoot()
     {
+        canShoot = false;
         Rigidbody bulletClone = (Rigidbody)Instantiate(bullet, rightPistol.transform.position, rightPistol.transform.rotation);
         bulletClone.velocity = transform.forward * bulletSpeed;
     }
 
     void ShootCrystal()
     {
+        canShoot2 = false;
         Rigidbody bulletClone2 = (Rigidbody)Instantiate(crystal, leftPistol.transform.position, leftPistol.transform.rotation);
         bulletClone2.velocity = transform.forward * CrystalSpeed;
     }
@@ -152,5 +186,21 @@ public class rvMovementPers : MonoBehaviour
         dashV = desiredVelocity.normalized;
         dashTimer = dashTime;
         isDashing = true;
+    }
+
+    public void TakeDamage(float damage)
+    {
+        Debug.Log("Curren Health : " + currentHealth);
+        currentHealth -= damage;
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        //pause game with score and gfgo main menu
+        
     }
 }

@@ -30,6 +30,15 @@ public class BulletScript : MonoBehaviour
             other.GetComponent<EnemyScript>().TakeDamage(BulletDamage);
             Die();
         }
+        else if (other.tag == "EnemyFollow")
+        {
+            other.GetComponent<EnemyAi>().TakeDamage(BulletDamage);
+            other.GetComponent<Rigidbody>().AddForce(new Vector3(this.gameObject.transform.forward.x,0, this.gameObject.transform.forward.z)*10,ForceMode.VelocityChange);
+            Die();
+        }
+        else if (other.tag == "Obstacle")
+            Die();
+
     }
 
     private void Die()

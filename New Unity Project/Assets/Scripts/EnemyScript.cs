@@ -21,8 +21,7 @@ public class EnemyScript : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth;
-        targetPosition = GameObject.FindGameObjectWithTag("Player").transform;
-        
+        targetPosition = GameObject.FindGameObjectWithTag("Player").transform;        
     }
 
     private void Update()
@@ -31,15 +30,20 @@ public class EnemyScript : MonoBehaviour
         {
             chase = true;
         }
+        else if ((this.transform.position - targetPosition.position).magnitude > 28)
+        {
+            chase = false;
+        }
         else if (chase)
         {
             timerShoot -= Time.deltaTime;
             if (timerShoot <= 0)
             {
-                timerShoot = shootRate;
+                timerShoot = Random.Range(shootRate,(shootRate*2));
                 Shoot();
             }
         }
+        
     }
 
     void Shoot()
@@ -78,7 +82,7 @@ public class EnemyScript : MonoBehaviour
 
     public void AwakeCrystal()
     {
-        if (counter < this.transform.childCount)
+        if (counter < 3)
         {
             childs[counter].SetActive(true);
             counter++;

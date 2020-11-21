@@ -26,6 +26,14 @@ public class CrystalScript : MonoBehaviour
             other.GetComponent<EnemyScript>().AwakeCrystal();
             Die();
         }
+        else if (other.tag == "EnemyFollow")
+        {
+            other.GetComponent<EnemyAi>().AwakeSphere();
+            Die();
+        }
+        else if(other.tag == "Obstacle")
+            Die();
+        
     }
 
     private void Die()
