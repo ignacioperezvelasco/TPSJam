@@ -113,20 +113,7 @@ public class rvMovementPers : MonoBehaviour
 
         if (Input.GetButtonDown("Jump"))
         {
-            if (!isDashing)
-            {
-                if (!_isGrounded)
-                {
-                    if (!doubleJumped)
-                    {
-                        doubleJumped = true;
-                        myRb.velocity = new Vector3(myRb.velocity.x,0,myRb.velocity.z);
-                        myRb.AddForce(new Vector3(0, jumpForce, 0), ForceMode.VelocityChange);
-                    }
-                }
-                else
-                    myRb.AddForce(new Vector3(0, jumpForce, 0), ForceMode.VelocityChange);
-            }
+            
         }
 
         if (Input.GetButtonDown("Fire1") && canShoot)
