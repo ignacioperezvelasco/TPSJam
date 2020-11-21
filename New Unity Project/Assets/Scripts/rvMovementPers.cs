@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class rvMovementPers : MonoBehaviour
 {
     //movement
+    public bool dead = false;
     [Header("movement")]
     public Rigidbody myRb;
     public float speed=2;
@@ -237,7 +238,6 @@ public class rvMovementPers : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        Debug.Log("Curren Health : " + currentHealth);
         currentHealth -= damage;
         if (currentHealth <= 0)
         {
@@ -248,6 +248,6 @@ public class rvMovementPers : MonoBehaviour
     private void Die()
     {
         //pause game with score and gfgo main menu
-        
+        dead = true;
     }
 }

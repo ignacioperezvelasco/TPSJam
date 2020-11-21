@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyBullet : MonoBehaviour
 {
-    float BulletDamage = 5;
+    public float BulletDamage = 5;
     public float distanceCanReach=40;
     Vector3 initialPosition;
 

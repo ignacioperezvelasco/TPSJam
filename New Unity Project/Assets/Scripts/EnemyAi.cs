@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class EnemyAi : MonoBehaviour
 {
+    private GameManager myGM;
     public GameObject[] mySpheres;
     private int counter = 0;
     public NavMeshAgent agent;
@@ -35,6 +36,7 @@ public class EnemyAi : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").transform;
         agent = this.GetComponent<NavMeshAgent>();
         currentHealth = maxHealth;
+        myGM = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
     }
 
     private void Update()
@@ -43,7 +45,6 @@ public class EnemyAi : MonoBehaviour
         //Check for sight and attack range
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         PlayerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
-        Debug.Log(playerInSightRange);
 
         if (!playerInSightRange && !PlayerInAttackRange)
             Patroling();
@@ -131,7 +132,12 @@ public class EnemyAi : MonoBehaviour
 
     private void Die()
     {
-        Destroy(this.gameObject);
+        if (myGM.numEnemies == 1)
+        {
+            myGM.WinPanel();
+        }
+        else
+            Destroy(this.gameObject);
     }
 
     public void AwakeSphere()
