@@ -19,7 +19,6 @@ public class EnemyScript : MonoBehaviour
     [SerializeField] float shootRate = 0.5f;
     float timerShoot;
 
-    float timerTillNextShot = 0f;
     // Start is called before the first frame update
 
     [SerializeField] float spawnRate = 5;

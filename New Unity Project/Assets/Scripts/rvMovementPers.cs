@@ -20,6 +20,7 @@ public class rvMovementPers : MonoBehaviour
     public Transform _groundChecker;
     public float GroundDistance = 0.2f;
     public LayerMask Ground;
+    public LayerMask slowerGround;
     public cameraScript myCam;
     private GameObject myPlayer;
     public Slider mySlider;
@@ -47,14 +48,18 @@ public class rvMovementPers : MonoBehaviour
     private Vector3 dashV;
     bool doubleJumped = false;
     public float dashTime = 0.15f;
-
+    bool isSlowed=false;
+    [SerializeField] float timeToNextDash=2;
+    bool canDash = true;
+    float dashCounter;
     //other
     [Header("other")]
     float currentHealth = 100;
     float maxHealth = 100;
-
+    bool onLiquidSlower = false;
     private void Start()
     {
+        dashCounter = timeToNextDash;
         currentHealth = maxHealth;
         myPlayer = GameObject.FindGameObjectWithTag("Player");
         timerToShoot = fireRate;
@@ -74,8 +79,14 @@ public class rvMovementPers : MonoBehaviour
 
         _isGrounded = Physics.CheckSphere(_groundChecker.position, GroundDistance, Ground, QueryTriggerInteraction.Ignore);
 
-        if (_isGrounded && myRb.drag != 7)
-            myRb.drag =7;
+
+        if (_isGrounded && ((myRb.drag != 7)|| (myRb.drag != 14)))
+        {
+            if(isSlowed)
+                myRb.drag = 25;
+            else
+                myRb.drag = 7;
+        }      
         else if(!_isGrounded)
             myRb.drag = 0;
 
@@ -131,6 +142,7 @@ public class rvMovementPers : MonoBehaviour
         }
     }
 
+
     private void FixedUpdate()
     {
         if (!isDashing)
@@ -169,6 +181,16 @@ public class rvMovementPers : MonoBehaviour
                 timerToShoot2 = fireRate2;
             }
         }
+        if (!canDash)
+        {
+            dashCounter -= Time.fixedDeltaTime;
+            if (dashCounter <= 0)
+            {
+                dashCounter = timeToNextDash;
+                canDash = true;
+            }
+
+        }
     }
 
     void Shoot()
@@ -187,9 +209,30 @@ public class rvMovementPers : MonoBehaviour
 
     void Dash()
     {
-        dashV = desiredVelocity.normalized;
-        dashTimer = dashTime;
-        isDashing = true;
+        if(canDash)
+        {
+            dashV = desiredVelocity.normalized;
+            dashTimer = dashTime;
+            isDashing = true;
+            canDash = false;
+        }      
+
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag=="Slower")
+        {
+            isSlowed = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Slower")
+        {
+            isSlowed = false;
+        }
     }
 
     public void TakeDamage(float damage)
