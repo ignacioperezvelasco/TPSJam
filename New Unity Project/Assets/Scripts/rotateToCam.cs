@@ -14,6 +14,6 @@ public class rotateToCam : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        this.transform.LookAt(camera);
+        this.transform.LookAt(new Vector3(this.transform.position.x, camera.position.y, camera.transform.position.z));
     }
 }

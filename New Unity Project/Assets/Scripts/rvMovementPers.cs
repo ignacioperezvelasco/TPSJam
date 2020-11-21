@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class rvMovementPers : MonoBehaviour
 {
@@ -21,7 +22,7 @@ public class rvMovementPers : MonoBehaviour
     public LayerMask Ground;
     public cameraScript myCam;
     private GameObject myPlayer;
-
+    public Slider mySlider;
     // Update is called once per frame
     //Gun
     [Header("GUN")]
@@ -50,9 +51,11 @@ public class rvMovementPers : MonoBehaviour
     //other
     [Header("other")]
     float currentHealth = 100;
+    float maxHealth = 100;
 
     private void Start()
     {
+        currentHealth = maxHealth;
         myPlayer = GameObject.FindGameObjectWithTag("Player");
         timerToShoot = fireRate;
         timerToShoot2 = fireRate2;
@@ -60,6 +63,7 @@ public class rvMovementPers : MonoBehaviour
 
     void Update()
     {
+        mySlider.value = currentHealth / maxHealth;
         var targetRotation = Quaternion.LookRotation(new Vector3(myCam.myMouse.x, transform.position.y, myCam.myMouse.z)  - transform.position);
 
 
