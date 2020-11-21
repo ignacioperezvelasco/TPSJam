@@ -5,7 +5,7 @@ using UnityEngine;
 public class CrystalScript : MonoBehaviour
 {
     Vector3 initialPosition;
-    float distanceCanReach = 40;
+    public float distanceCanReach = 40;
 
     private void Start()
     {

@@ -5,7 +5,7 @@ using UnityEngine;
 public class BulletScript : MonoBehaviour
 {
     float BulletDamage = 5;
-    float distanceCanReach=40;
+    public float distanceCanReach=40;
     Vector3 initialPosition;
 
     private void Start()

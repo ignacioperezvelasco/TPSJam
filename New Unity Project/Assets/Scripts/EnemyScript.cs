@@ -7,34 +7,47 @@ public class EnemyScript : MonoBehaviour
     public Transform targetPosition;
     float currentHealth = 0;
     float maxHealth = 100;
-    public List<GameObject> childs;
+    [SerializeField] GameObject[] childs;
     private int counter = 0;
-    Transform spawnPoint;
+    [SerializeField] Transform spawnPoint;
     public Rigidbody bullet;
-    public float bulletspeed=60;
+    public float bulletSpeed=10;
     bool chase = false;
+    [SerializeField] float shootRate = 0.5f;
+    float timerShoot;
 
-    float timerTillNextShot = 0.5f;
+    float timerTillNextShot = 0f;
     // Start is called before the first frame update
     void Start()
     {
-        spawnPoint = this.gameObject.GetComponentInParent<Transform>();
         currentHealth = maxHealth;
         targetPosition = GameObject.FindGameObjectWithTag("Player").transform;
-        for (var i = 0; i < transform.childCount; i++)
-        {
-            childs.Add(transform.GetChild(i).gameObject);
-        }
+        
     }
 
     private void Update()
-    {       
-        if ((this.transform.position - targetPosition.position).magnitude<100)
+    {
+        if (((this.transform.position - targetPosition.position).magnitude < 28) && chase == false)
         {
             chase = true;
         }
+        else if (chase)
+        {
+            timerShoot -= Time.deltaTime;
+            if (timerShoot <= 0)
+            {
+                timerShoot = shootRate;
+                Shoot();
+            }
+        }
     }
 
+    void Shoot()
+    {        
+        Rigidbody bulletClone = (Rigidbody)Instantiate(bullet, spawnPoint.transform.position, spawnPoint.transform.rotation);
+        bulletClone.gameObject.transform.LookAt(targetPosition.position);
+        bulletClone.velocity = bulletClone.gameObject.transform.forward * bulletSpeed;
+    }
     
     public void TakeDamage(float damage)
     {
@@ -45,8 +58,7 @@ public class EnemyScript : MonoBehaviour
         }
         else
             currentHealth -= damage;
-
-       // Debug.Log("CurrentHealth : " + currentHealth);
+        
 
         if (currentHealth <= 0)
         {

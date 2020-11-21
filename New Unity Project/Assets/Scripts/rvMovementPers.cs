@@ -26,8 +26,8 @@ public class rvMovementPers : MonoBehaviour
     //Gun
     public float damage = 10f;
     public float range = 100f;
-    public float bulletSpeed = 300;
-    public float CrystalSpeed = 30;
+    public float bulletSpeed = 100;
+    public float CrystalSpeed = 80;
     public Rigidbody bullet;
     public Rigidbody crystal;
     public Transform rightPistol;
