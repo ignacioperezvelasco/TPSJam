@@ -1,12 +1,14 @@
 ﻿
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class EnemyAi : MonoBehaviour
 {
     public GameObject[] mySpheres;
     private int counter = 0;
     public NavMeshAgent agent;
+    public Slider myHealth;
     public Transform player;
     public LayerMask whatIsGround, whatIsPlayer, whatIsObstacle;
 
@@ -23,7 +25,8 @@ public class EnemyAi : MonoBehaviour
     public float sightRange, attackRange;
     public bool playerInSightRange, PlayerInAttackRange;
 
-    public float currentHealth = 50;
+    public float currentHealth;
+    public float maxHealth=50;
 
     [SerializeField] float bulletSpeed=15;
 
@@ -31,10 +34,12 @@ public class EnemyAi : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         agent = this.GetComponent<NavMeshAgent>();
+        currentHealth = maxHealth;
     }
 
     private void Update()
     {
+        myHealth.value = currentHealth / maxHealth;
         //Check for sight and attack range
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         PlayerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);

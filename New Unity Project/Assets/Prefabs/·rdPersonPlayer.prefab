@@ -54,7 +54,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4268136556867185109}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.79, y: -0.336, z: 0.6790001}
+  m_LocalPosition: {x: 0.208, y: -0.336, z: 0.6790001}
   m_LocalScale: {x: 0.18898012, y: 0.28871, z: 0.62497}
   m_Children: []
   m_Father: {fileID: 1402492513031063786}
@@ -174,8 +174,10 @@ MonoBehaviour:
   crystal: {fileID: 1485909891670066590, guid: 315d2624d57def247afe64b449a0da2b, type: 3}
   rightPistol: {fileID: 4268136556867185106}
   leftPistol: {fileID: 4268136557616891632}
-  dashTime: 0.3
+  fireRate: 0.5
+  fireRate2: 0.8
   dashvelocity: 15
+  dashTime: 0.3
 --- !u!65 &3971897199738700333
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -213,7 +215,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4268136557616891635}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.85, y: -0.384, z: 0.54}
+  m_LocalPosition: {x: -0.127, y: -0.384, z: 0.54}
   m_LocalScale: {x: 0.18898012, y: 0.28871, z: 0.62497}
   m_Children: []
   m_Father: {fileID: 1402492513031063786}
