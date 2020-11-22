@@ -670,7 +670,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &635621128
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1143,7 +1143,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1324541075
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1317,7 +1317,8 @@ MonoBehaviour:
   m_Text: "The company Suriv composed of Ignacio P\xE9rez(developper), Guillermo
     P\xE9rez (Artist) and Adri\xE0 Canoves(musician) are developing a robot that
     can clean the virus and other micro-Organisms. This is one of the tests it has
-    to pass, cleaning an entire level of one awful fridge, if it works, we'll achieve
+    to pass, cleaning an entire level of one awful fridge before the battery dies.
+    Killing a focus os viruses charge the battery.If it cleans all, we'll achieve
     a new technology that can battle all viruses. The robot can shoot soap and water
     bubbles to clean, for each soap bubble that you wash away from virus bodies,
     the more damage you can do to them."
