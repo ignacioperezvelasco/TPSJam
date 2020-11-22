@@ -27,6 +27,7 @@ public class EnemyBullet : MonoBehaviour
     {
         if (other.tag == "Player")
         {
+            other.GetComponent<Rigidbody>().AddForce(this.GetComponent<Rigidbody>().velocity.normalized*15,ForceMode.VelocityChange);
             other.GetComponent<rvMovementPers>().TakeDamage(BulletDamage);
             Die();
         }

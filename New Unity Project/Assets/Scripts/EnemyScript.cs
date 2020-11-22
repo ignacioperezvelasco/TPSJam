@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class EnemyScript : MonoBehaviour
 {
+    public AudioSource shotS;
+    public AudioSource hit;
+    public AudioSource hitBubble;
     public Transform targetPosition;
     public LayerMask whatIsObstacle;
     public Slider myHealth;
@@ -67,7 +70,9 @@ public class EnemyScript : MonoBehaviour
     }
 
     void Shoot()
-    {        
+    {
+        shotS.pitch = Random.Range(0.7f, 1);
+        shotS.Play();
         Rigidbody bulletClone = (Rigidbody)Instantiate(bullet, spawnPoint.transform.position, spawnPoint.transform.rotation);
         bulletClone.gameObject.transform.LookAt(targetPosition.position);
         bulletClone.velocity = bulletClone.gameObject.transform.forward * bulletSpeed;
@@ -77,12 +82,15 @@ public class EnemyScript : MonoBehaviour
     {
         if (counter != 0)
         {
+            hitBubble.Play();
             currentHealth -= damage + (counter * 15);
             HideCrystals();
         }
         else
+        {
+            hit.Play();
             currentHealth -= damage;
-        
+        }
 
         if (currentHealth <= 0)
         {
@@ -105,6 +113,7 @@ public class EnemyScript : MonoBehaviour
     {
         if (counter < 3)
         {
+            hit.Play();
             childs[counter].SetActive(true);
             counter++;
         }

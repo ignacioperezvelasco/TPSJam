@@ -6,13 +6,15 @@ using UnityEngine.UI;
 public class EnemyAi : MonoBehaviour
 {
     private GameManager myGM;
+    public AudioSource shotS;
     public GameObject[] mySpheres;
     private int counter = 0;
     public NavMeshAgent agent;
     public Slider myHealth;
     public Transform player;
     public LayerMask whatIsGround, whatIsPlayer, whatIsObstacle;
-
+    public AudioSource hit;
+    public AudioSource hitBubble;
     //patroling 
     public Vector3 walkPoint;
     bool walkPointSet;
@@ -105,6 +107,8 @@ public class EnemyAi : MonoBehaviour
 
         if (!alreadyAttacked)
         {
+            shotS.pitch = Random.Range(0.7f, 1);
+            shotS.Play();
             Rigidbody rb = Instantiate(projectile, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
             rb.AddForce(transform.forward * bulletSpeed, ForceMode.VelocityChange);
             //AttackCode Here
@@ -120,12 +124,15 @@ public class EnemyAi : MonoBehaviour
         currentHealth -= damage + (counter*15);
         if (counter > 0)
         {
+            hitBubble.Play();
             counter = 0;
             for (int i = 0; i < 3; i++)
             {
                 mySpheres[i].SetActive(false);
             }
         }
+        else
+            hit.Play();
         if (currentHealth <= 0)
             Die();
     }
@@ -144,6 +151,7 @@ public class EnemyAi : MonoBehaviour
     {
         if (counter < 3)
         {
+            hit.Play();
             mySpheres[counter].SetActive(true);
             counter++;
         }

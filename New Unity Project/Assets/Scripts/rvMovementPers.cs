@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class rvMovementPers : MonoBehaviour
 {
+    //Sound
+    public AudioSource shotA;
+    public AudioSource shotB;
     //movement
     public bool dead = false;
     [Header("movement")]
@@ -183,6 +186,8 @@ public class rvMovementPers : MonoBehaviour
 
     void Shoot()
     {
+        shotA.pitch = Random.Range(0.6f, 1);
+        shotA.Play();
         canShoot = false;
         Rigidbody bulletClone = (Rigidbody)Instantiate(bullet, rightPistol.transform.position, rightPistol.transform.rotation);
         bulletClone.velocity = transform.forward * bulletSpeed;
@@ -190,6 +195,8 @@ public class rvMovementPers : MonoBehaviour
 
     void ShootCrystal()
     {
+        shotB.pitch = Random.Range(0.6f, 1);
+        shotB.Play();
         canShoot2 = false;
         Rigidbody bulletClone2 = (Rigidbody)Instantiate(crystal, leftPistol.transform.position, leftPistol.transform.rotation);
         bulletClone2.velocity = transform.forward * CrystalSpeed;
