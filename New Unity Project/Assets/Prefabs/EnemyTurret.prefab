@@ -687,6 +687,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetPosition: {fileID: 3282614450949898215}
+  whatIsObstacle:
+    serializedVersion: 2
+    m_Bits: 1024
   myHealth: {fileID: 38081157}
   childs:
   - {fileID: 2389804595413625253}

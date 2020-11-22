@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class EnemyScript : MonoBehaviour
 {
     public Transform targetPosition;
+    public LayerMask whatIsObstacle;
     public Slider myHealth;
     float currentHealth = 0;
     float maxHealth = 100;
@@ -48,7 +49,8 @@ public class EnemyScript : MonoBehaviour
             if (timerShoot <= 0)
             {
                 timerShoot = Random.Range(shootRate,(shootRate*2));
-                Shoot();
+                if(!Physics.CheckCapsule(transform.position, targetPosition.position, 0.5f, whatIsObstacle))
+                    Shoot();
             }
             if (timerSpawn <= 0)
             {
@@ -84,6 +86,7 @@ public class EnemyScript : MonoBehaviour
 
         if (currentHealth <= 0)
         {
+            GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().AddMinute();
             Die();
         }
     }
