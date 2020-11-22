@@ -5,7 +5,11 @@ using UnityEngine.UI;
 
 public class rvMovementPers : MonoBehaviour
 {
+    //Sound
+    public AudioSource shotA;
+    public AudioSource shotB;
     //movement
+    public bool dead = false;
     [Header("movement")]
     public Rigidbody myRb;
     public float speed=2;
@@ -112,20 +116,7 @@ public class rvMovementPers : MonoBehaviour
 
         if (Input.GetButtonDown("Jump"))
         {
-            if (!isDashing)
-            {
-                if (!_isGrounded)
-                {
-                    if (!doubleJumped)
-                    {
-                        doubleJumped = true;
-                        myRb.velocity = new Vector3(myRb.velocity.x,0,myRb.velocity.z);
-                        myRb.AddForce(new Vector3(0, jumpForce, 0), ForceMode.VelocityChange);
-                    }
-                }
-                else
-                    myRb.AddForce(new Vector3(0, jumpForce, 0), ForceMode.VelocityChange);
-            }
+            
         }
 
         if (Input.GetButtonDown("Fire1") && canShoot)
@@ -195,6 +186,8 @@ public class rvMovementPers : MonoBehaviour
 
     void Shoot()
     {
+        shotA.pitch = Random.Range(0.6f, 1);
+        shotA.Play();
         canShoot = false;
         Rigidbody bulletClone = (Rigidbody)Instantiate(bullet, rightPistol.transform.position, rightPistol.transform.rotation);
         bulletClone.velocity = transform.forward * bulletSpeed;
@@ -202,6 +195,8 @@ public class rvMovementPers : MonoBehaviour
 
     void ShootCrystal()
     {
+        shotB.pitch = Random.Range(0.6f, 1);
+        shotB.Play();
         canShoot2 = false;
         Rigidbody bulletClone2 = (Rigidbody)Instantiate(crystal, leftPistol.transform.position, leftPistol.transform.rotation);
         bulletClone2.velocity = transform.forward * CrystalSpeed;
@@ -237,7 +232,6 @@ public class rvMovementPers : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        Debug.Log("Curren Health : " + currentHealth);
         currentHealth -= damage;
         if (currentHealth <= 0)
         {
@@ -248,6 +242,6 @@ public class rvMovementPers : MonoBehaviour
     private void Die()
     {
         //pause game with score and gfgo main menu
-        
+        dead = true;
     }
 }

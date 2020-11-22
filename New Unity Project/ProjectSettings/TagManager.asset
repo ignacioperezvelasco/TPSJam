@@ -10,6 +10,9 @@ TagManager:
   - EnemyFollow
   - Obstacle
   - Slower
+  - GameManager
+  - FinalScreenLose
+  - FinalScreenWin
   layers:
   - Default
   - TransparentFX

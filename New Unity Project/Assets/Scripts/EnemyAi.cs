@@ -5,13 +5,16 @@ using UnityEngine.UI;
 
 public class EnemyAi : MonoBehaviour
 {
+    private GameManager myGM;
+    public AudioSource shotS;
     public GameObject[] mySpheres;
     private int counter = 0;
     public NavMeshAgent agent;
     public Slider myHealth;
     public Transform player;
     public LayerMask whatIsGround, whatIsPlayer, whatIsObstacle;
-
+    public AudioSource hit;
+    public AudioSource hitBubble;
     //patroling 
     public Vector3 walkPoint;
     bool walkPointSet;
@@ -35,6 +38,7 @@ public class EnemyAi : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").transform;
         agent = this.GetComponent<NavMeshAgent>();
         currentHealth = maxHealth;
+        myGM = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
     }
 
     private void Update()
@@ -43,7 +47,6 @@ public class EnemyAi : MonoBehaviour
         //Check for sight and attack range
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         PlayerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
-        Debug.Log(playerInSightRange);
 
         if (!playerInSightRange && !PlayerInAttackRange)
             Patroling();
@@ -104,6 +107,8 @@ public class EnemyAi : MonoBehaviour
 
         if (!alreadyAttacked)
         {
+            shotS.pitch = Random.Range(0.7f, 1);
+            shotS.Play();
             Rigidbody rb = Instantiate(projectile, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
             rb.AddForce(transform.forward * bulletSpeed, ForceMode.VelocityChange);
             //AttackCode Here
@@ -119,25 +124,34 @@ public class EnemyAi : MonoBehaviour
         currentHealth -= damage + (counter*15);
         if (counter > 0)
         {
+            hitBubble.Play();
             counter = 0;
             for (int i = 0; i < 3; i++)
             {
                 mySpheres[i].SetActive(false);
             }
         }
+        else
+            hit.Play();
         if (currentHealth <= 0)
             Die();
     }
 
     private void Die()
     {
-        Destroy(this.gameObject);
+        if (myGM.numEnemies == 1)
+        {
+            myGM.WinPanel();
+        }
+        else
+            Destroy(this.gameObject);
     }
 
     public void AwakeSphere()
     {
         if (counter < 3)
         {
+            hit.Play();
             mySpheres[counter].SetActive(true);
             counter++;
         }

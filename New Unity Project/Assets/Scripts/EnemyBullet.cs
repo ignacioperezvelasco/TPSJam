@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyBullet : MonoBehaviour
 {
-    float BulletDamage = 5;
+    public float BulletDamage = 5;
     public float distanceCanReach=40;
     Vector3 initialPosition;
 
@@ -27,6 +27,7 @@ public class EnemyBullet : MonoBehaviour
     {
         if (other.tag == "Player")
         {
+            other.GetComponent<Rigidbody>().AddForce(this.GetComponent<Rigidbody>().velocity.normalized*15,ForceMode.VelocityChange);
             other.GetComponent<rvMovementPers>().TakeDamage(BulletDamage);
             Die();
         }
